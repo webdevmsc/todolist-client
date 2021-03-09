@@ -63,8 +63,9 @@ export const login = (email, password) => async (dispatch) => {
         dispatch(getAuthUserData());
     }
     else {
-        let message = response.data.message;
+        let message = response.data.Message;
         dispatch(setLoginErrors(message));
+        setTimeout(() => dispatch(setLoginErrors(null)), 2000);
     }
 }
 

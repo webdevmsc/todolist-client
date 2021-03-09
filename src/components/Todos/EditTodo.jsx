@@ -112,7 +112,7 @@ const EditTodo = ({editTodo, editingTodo}) => {
         validationSchema: todoValidationSchema,
         onSubmit: (values) => {
             setDisabled(true);
-            editTodo({...values, tags: [firstTag, secondTag, thirdTag], status});
+            editTodo({...values, tags: [firstTag, secondTag, thirdTag], status: status == true});
             setDisabled(false);
             formik.resetForm();
             handleClose();
@@ -139,9 +139,7 @@ const EditTodo = ({editTodo, editingTodo}) => {
                             <FormControl variant="outlined" className={classes.formControl}>
                                 <InputLabel>Tag</InputLabel>
                                 <Select value={firstTag} onChange={handleFirstTagChange} label="Tag">
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
+                                    <MenuItem value={''}><em>None</em></MenuItem>
                                     {nounsArray.map(x => <MenuItem value={x} key={x}>{x}</MenuItem>)}
                                 </Select>
                             </FormControl>

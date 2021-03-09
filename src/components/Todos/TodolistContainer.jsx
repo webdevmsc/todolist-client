@@ -4,11 +4,13 @@ import {addTodo, deleteTodo, editTodo, getTodos, toggleDone, toggleDoneCheckBox}
 import React from 'react';
 
 
-const TodolistContainer = (props) => {
+const TodolistContainer = React.memo((props) => {
     return <Todolist {...props} />
-}
+});
+
 let mapStateToProps = (state) => {
     return {
+        isAuth: state.auth.isAuth,
         todos: state.todo.todos
     }
 }

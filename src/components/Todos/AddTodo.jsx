@@ -95,7 +95,7 @@ const AddNewTodo = ({addTodo}) => {
             <Fab color="secondary" className={classes.addNew} onClick={handleOpenNewTodo}>
                 <AddIcon />
             </Fab>
-            <Dialog open={newTodoState} onClose={handleCloseNewTodo} maxWidth={'sm'} ma>
+            <Dialog open={newTodoState} onClose={handleCloseNewTodo} maxWidth={'sm'}>
                 <DialogTitle>New Task</DialogTitle>
                 <form onSubmit={formik.handleSubmit}>
                     <DialogContent className={classes.dialog}>

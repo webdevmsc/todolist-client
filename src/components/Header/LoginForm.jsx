@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -21,7 +21,7 @@ const loginValidationSchema = yup.object({
         .required('Email is required'),
     password: yup
         .string('Enter your password')
-        .min(6, 'Password should be of minimum 6 characters length')
+        .max(30, 'Maximum length is 30 chars')
         .required('Password is required'),
 });
 
@@ -47,11 +47,9 @@ const LoginForm = ({login, loginErrors}) => {
             setDisabled(true);
             login(values.email, values.password);
             setDisabled(false);
+            formik.resetForm();
         }
     });
-
-
-
 
     //button state
     let [disabled, setDisabled] = useState(false);

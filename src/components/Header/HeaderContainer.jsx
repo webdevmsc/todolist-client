@@ -1,13 +1,14 @@
 import {login, logout, register} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import Header from "./Header";
+import React from 'react';
 import {getTodos} from "../../redux/todo-reducer";
 
-const HeaderContainer = (props) => {
+const HeaderContainer = React.memo((props) => {
     return (
         <Header { ...props } />
     )
-}
+});
 
 let mapStateToProps = (state) => {
     return {

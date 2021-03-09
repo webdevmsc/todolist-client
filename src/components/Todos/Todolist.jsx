@@ -1,6 +1,18 @@
 import {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import { Checkbox,  CircularProgress,  Container,  List,  ListItem,  ListItemIcon,  ListItemSecondaryAction,  ListItemText, Paper, TablePagination } from "@material-ui/core";
+import {
+    Checkbox,
+    CircularProgress,
+    Container,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItemText,
+    Paper,
+    TablePagination,
+    Typography
+} from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import Chip from '@material-ui/core/Chip';
 import {toggleDoneCheckBox} from "../../redux/todo-reducer";
@@ -106,10 +118,21 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         bottom: 60,
         right: 0
+    },
+    message: {
+        padding: theme.spacing(6),
+        fontSize: '26px'
+    },
+    unAuthorized: {
+        marginTop: theme.spacing(12),
+        fontSize: '28px'
+    },
+    progress: {
+        marginTop: theme.spacing(12)
     }
 }))
 //element
-const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo}) => {
+const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth}) => {
     //styles
     const classes = useStyles();
     //button/checkbox handling
@@ -134,8 +157,10 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo}) => {
         setPage(0);
     };
 
+    if (!isAuth) return <Container className={classes.unAuthorized}><Typography variant={'inherit'}><strong>Login:</strong> demo@mail.ru<br/><strong>Password:</strong> 123321dd</Typography></Container>
+
     //progress
-    if (!todos) return <CircularProgress/>;
+    if (!todos) return <CircularProgress className={classes.progress}/>;
 
     //todos
     let sliced;
@@ -146,42 +171,50 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo}) => {
     }
 
     return (
-        <Container className={classes.todolist}>
-            <Paper className={classes.paper}>
-                <div className={classes.todolistHeader}>
-                    <div className={classes.todolistHeaderTitle}>Task</div>
-                    <div className={classes.todolistHeaderDates}>
-                        <div className={classes.todolistHeaderDatesItem}>Added</div>
-                        <div className={classes.todolistHeaderDatesItem}>Updated</div>
+            <Container className={classes.todolist}>
+                <Paper className={classes.paper}>
+                    <div className={classes.todolistHeader}>
+                        <div className={classes.todolistHeaderTitle}>Task</div>
+                        <div className={classes.todolistHeaderDates}>
+                            <div className={classes.todolistHeaderDatesItem}>Added</div>
+                            <div className={classes.todolistHeaderDatesItem}>Updated</div>
+                        </div>
                     </div>
-                </div>
-                <List className={classes.todos}>
-                    {sliced.map(x =>
-                        <ListItem className={x.status ? classes.doneNote : classes.note } key={x.id} onClick={handleToggleDone(x.id)} >
-                            <ListItemIcon>
-                                <Checkbox checked={x.status == true} onClick={handleCheckboxClick(x.id)}/>
-                            </ListItemIcon>
-                            <div className={classes.listItem}>
-                                <ListItemText className={classes.listItemText} primary={x.title} secondary={x.content}/>
-                                { x.tags && x.tags.map(x => x && <Chip key={x.id} variant={"outlined"} className={classes.chip} label={x}/>) }
-                            </div>
-                            <div className={classes.dates}>
-                                <Chip variant={"outlined"} key={x.added} className={classes.date} label={new Date(Date.parse(x.added)).toLocaleString()}/>
-                                <Chip variant={"outlined"} key={x.updated} className={classes.date} label={new Date(Date.parse(x.updated)).toLocaleString()}/>
-                            </div>
-                            <ListItemSecondaryAction className={classes.secondary}>
-                                <EditTodo editingTodo={x} editTodo={editTodo}/>
-                                <DeleteIcon className={classes.secondaryIcon} onClick={handleDelete(x.id)}/>
-                            </ListItemSecondaryAction>
-                        </ListItem>)}
-                </List>
-                <div className={classes.addTodo} >
-                    <AddNewTodo addTodo={addTodo}/>
-                </div>
-                <TablePagination className={classes.tablePagination} rowsPerPageOptions={[8, 16, 25]} component="div" count={todos.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
-            </Paper>
-        </Container>
-    );
+                    {
+                        todos.length > 0
+                        ?
+                        <List className={classes.todos}>
+                            {sliced.map(x =>
+                                <ListItem className={x.status ? classes.doneNote : classes.note } key={x.id} onClick={handleToggleDone(x.id)} >
+                                    <ListItemIcon>
+                                        <Checkbox checked={x.status == true} onClick={handleCheckboxClick(x.id)}/>
+                                    </ListItemIcon>
+                                    <div className={classes.listItem}>
+                                        <ListItemText className={classes.listItemText} primary={x.title} secondary={x.content}/>
+                                        { x.tags && x.tags.map(x => x && <Chip key={x.id} variant={"outlined"} className={classes.chip} label={x}/>) }
+                                    </div>
+                                    <div className={classes.dates}>
+                                        <Chip variant={"outlined"} key={Date.parse(x.added)} className={classes.date} label={new Date(Date.parse(x.added)).toLocaleString()}/>
+                                        <Chip variant={"outlined"} key={x.updated} className={classes.date} label={new Date(Date.parse(x.updated)).toLocaleString()}/>
+                                    </div>
+                                    <ListItemSecondaryAction className={classes.secondary}>
+                                        <EditTodo editingTodo={x} editTodo={editTodo}/>
+                                        <DeleteIcon className={classes.secondaryIcon} onClick={handleDelete(x.id)}/>
+                                    </ListItemSecondaryAction>
+                                </ListItem>)}
+                        </List>
+                        :
+                        <div className={classes.message}>
+                            <Typography variant={'inherit'}>Your todolist is empty. Please add some tasks</Typography>
+                        </div>
+                    }
+                    <div className={classes.addTodo} >
+                        <AddNewTodo addTodo={addTodo}/>
+                    </div>
+                    <TablePagination className={classes.tablePagination} rowsPerPageOptions={[8, 16, 25]} component="div" count={todos.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
+                </Paper>
+            </Container>
+    )
 }
 
 export default Todolist;

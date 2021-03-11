@@ -6,10 +6,12 @@ const SET_EDIT_TODO = '/todo/SET_EDIT_TODO';
 const TOGGLE_DONE = '/todo/TOGGLE_DONE';
 const DELETE_TODO = '/todo/DELETE_TODO';
 const ADD_TODO = '/todo/ADD_TODO';
+const SET_LOADING = '/todo/SET_LOADING';
 
 // initial state
 let initialState = {
-    todos: null
+    todos: null,
+    isLoading: false
 }
 
 // todoReducer
@@ -36,6 +38,9 @@ const todoReducer = (state = initialState, action) => {
         case SET_EDIT_TODO:
             return { ...state, todos: state.todos.map(s => s.id === action.todo.id ?
                 Object.assign({}, s, action.todo) : s )};
+        case SET_LOADING: {
+            return { ...state, ...action.payload }
+        }
         default:
             return state;
     }
@@ -50,6 +55,8 @@ export const setDeleteTodo = (todoId) => ({type: DELETE_TODO, todoId});
 export const addNewTodo = (todo) => ({type: ADD_TODO, todo});
 
 export const setEditTodo = (todo) => ({type: SET_EDIT_TODO, todo});
+
+export const setLoading = (isLoading) => ({type: SET_LOADING, payload: { isLoading }});
 
 // thunk - get todos
 export const getTodos = () => async (dispatch) => {

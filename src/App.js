@@ -1,12 +1,12 @@
 import './App.css';
-import {MuiThemeProvider, createMuiTheme, } from '@material-ui/core/styles';
+import {MuiThemeProvider, createMuiTheme, makeStyles,} from '@material-ui/core/styles';
 import { deepPurple, red, green } from "@material-ui/core/colors";
 import store from "./redux/redux-store";
 import {connect, Provider} from "react-redux";
 import React from 'react';
 import { useEffect } from "react";
 import {handleError, initializeApp} from "./redux/app-reducer";
-import {CircularProgress} from "@material-ui/core";
+import {Backdrop, CircularProgress} from "@material-ui/core";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import TodolistContainer from "./components/Todos/TodolistContainer";
 
@@ -19,13 +19,24 @@ const theme = createMuiTheme({
     }
 });
 
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 5,
+        color: '#fff',
+    }
+}))
 
 function App({initializeApp, initialized}) {
+    let styles = useStyles();
     useEffect(() => {
         initializeApp();
     })
     if (!initialized) {
-        return <CircularProgress/>
+        return (
+            <Backdrop className={styles.backdrop} open={!initialized}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+        )
     }
     return (
     <>

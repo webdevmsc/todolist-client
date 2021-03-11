@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'https://localhost:5001/',
+    baseURL: 'https://todolist-msc.azurewebsites.net/',
     headers: {
         'Authorization': `Bearer ${localStorage.token}`
     }
@@ -20,10 +20,10 @@ export const authAPI = {
         return instance.get(`auth/me`);
     },
     login(email, password) {
-        return instance.post(`https://localhost:5001/auth/login`, { email, password });
+        return instance.post(`https://todolist-msc.azurewebsites.net/auth/login`, { email, password });
     },
     register(email, password, passwordConfirm) {
-        return instance.post(`https://localhost:5001/auth/register`, { email, password, passwordConfirm } );
+        return instance.post(`https://todolist-msc.azurewebsites.net/auth/register`, { email, password, passwordConfirm } );
     }
 }
 

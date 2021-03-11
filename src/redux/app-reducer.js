@@ -1,4 +1,5 @@
 import { getAuthUserData } from "./auth-reducer";
+import {makeStyles} from "@material-ui/core/styles";
 
 const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS'
 const GLOBAL_ERROR = 'GLOBAL_ERROR';
@@ -7,6 +8,7 @@ let initialState = {
     initialized: false,
     globalError: null
 }
+
 
 const appReducer = (state = initialState, action) => {
     switch (action.type) {

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
 import * as yup from "yup";
@@ -12,8 +12,14 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'column'
     },
     success: {
-        textAlign: 'center'
+        color: 'green',
+        marginTop: '10px'
+    },
+    error: {
+        color: 'red',
+        marginTop: '10px'
     }
+
 }))
 
 //validation
@@ -33,13 +39,30 @@ const registerValidationSchema = yup.object({
         .required('Password is required'),
 });
 //element
-const RegisterForm = ({register, registerErrors, successMessage}) => {
-
+const RegisterForm = ({register, registerErrors, successMessage, removeRegisterErrors, removeRegisterSuccess}) => {
+    //
+    useEffect(() => {
+        if (registerErrors != null || successMessage) {
+            setRegisterState(true);
+        }
+        if (successMessage) {
+            setRegisterState(true);
+            setTimeout(() => handleCloseRegister(), 5000);
+        }
+    }, [registerErrors, successMessage])
 
     //Register
     const [registerState, setRegisterState] = useState(false);
     const handleOpenRegister = () => setRegisterState(true);
-    const handleCloseRegister = () => setRegisterState(false);
+    const handleCloseRegister = () => {
+        setRegisterState(false);
+        if (registerErrors != null || successMessage) {
+            setTimeout(() => {
+                removeRegisterErrors()
+                removeRegisterSuccess();
+            }, 100);
+        }
+    }
 
     //form
     const formik = useFormik({
@@ -50,11 +73,11 @@ const RegisterForm = ({register, registerErrors, successMessage}) => {
         },
         validationSchema: registerValidationSchema,
         onSubmit: async (values) => {
-            formik.resetForm();
+            handleCloseRegister();
             setDisabled(true);
             await register(values.email, values.password, values.passwordConfirm);
             setDisabled(false);
-            setTimeout(() => setRegisterState(false), 1000);
+            formik.resetForm();
         },
     });
 
@@ -74,7 +97,7 @@ const RegisterForm = ({register, registerErrors, successMessage}) => {
                         <TextField fullWidth id="email" name="email" label="Email" value={formik.values.email} onChange={formik.handleChange} error={formik.touched.email && Boolean(formik.errors.email)} helperText={formik.touched.email && formik.errors.email}/>
                         <TextField fullWidth id="password" name="password" label="Password" type="password" value={formik.values.password} onChange={formik.handleChange} error={formik.touched.password && Boolean(formik.errors.password)} helperText={formik.touched.password && formik.errors.password}/>
                         <TextField fullWidth id="check" name="passwordConfirm" label="Password Confirmation" type="password" value={formik.values.passwordConfirm} onChange={formik.handleChange} error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)} helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}/>
-                        { registerErrors && <DialogContentText>{registerErrors}</DialogContentText> }
+                        { registerErrors && registerErrors.map(x => <DialogContentText key={x} className={styles.error}>{x}<br/></DialogContentText>) }
                         { successMessage && <DialogContentText className={styles.success}>{successMessage}</DialogContentText>}
                     </DialogContent>
                     <DialogActions>

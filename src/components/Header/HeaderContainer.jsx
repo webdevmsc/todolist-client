@@ -1,8 +1,19 @@
-import {login, logout, register} from "../../redux/auth-reducer";
+import {
+    login,
+    logout,
+    register,
+    removeLoginErrors,
+    removeRegisterErrors,
+    removeRegisterSuccess
+} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import Header from "./Header";
 import React from 'react';
 import {getTodos} from "../../redux/todo-reducer";
+import {makeStyles} from "@material-ui/core/styles";
+
+
+
 
 const HeaderContainer = React.memo((props) => {
     return (
@@ -16,8 +27,9 @@ let mapStateToProps = (state) => {
         userName: state.auth.login,
         loginErrors: state.auth.loginErrors,
         registerErrors: state.auth.registerErrors,
-        successMessage: state.auth.successMessage
+        successMessage: state.auth.successMessage,
+        isSubmitting: state.auth.isSubmitting
     }
 }
 
-export default connect(mapStateToProps, { login, logout, register, getTodos } )(HeaderContainer);
+export default connect(mapStateToProps, { login, logout, register, getTodos, removeLoginErrors, removeRegisterErrors, removeRegisterSuccess } )(HeaderContainer);

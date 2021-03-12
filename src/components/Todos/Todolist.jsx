@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
-        backgroundColor: '#ff1744',
+        backgroundColor: "#673AB7",
         color: 'white',
         borderRadius: '20px 20px 0 0'
     },
@@ -91,12 +91,14 @@ const useStyles = makeStyles(theme => ({
     },
     todolistHeaderTitle: {
         marginLeft: theme.spacing(8.8),
-        fontSize: '18px'
+        fontSize: '18px',
+        fontWeight: 'bold'
     },
     todolistHeaderDatesItem: {
         fontSize: '18px',
         marginRight: theme.spacing(7.5),
-        marginLeft: theme.spacing(4)
+        marginLeft: theme.spacing(3.5),
+        fontWeight: 'bold'
     },
     secondary: {
         marginRight: theme.spacing(0.3),

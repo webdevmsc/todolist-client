@@ -47,7 +47,7 @@ const RegisterForm = ({register, registerErrors, successMessage, removeRegisterE
         }
         if (successMessage) {
             setRegisterState(true);
-            setTimeout(() => handleCloseRegister(), 5000);
+            setTimeout(() => handleCloseRegister(), 3000);
         }
     }, [registerErrors, successMessage])
 

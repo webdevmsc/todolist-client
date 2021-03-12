@@ -9,6 +9,7 @@ import {handleError, initializeApp} from "./redux/app-reducer";
 import {Backdrop, CircularProgress} from "@material-ui/core";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import TodolistContainer from "./components/Todos/TodolistContainer";
+import Todolist from "./components/Todos/Todolist";
 
 
 const theme = createMuiTheme({
@@ -26,7 +27,30 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function App({initializeApp, initialized}) {
+// function App({initializeApp, initialized}) {
+//     let styles = useStyles();
+//     useEffect(() => {
+//         initializeApp();
+//     })
+//     if (!initialized) {
+//         return (
+//             <Backdrop className={styles.backdrop} open={!initialized}>
+//                 <CircularProgress color="inherit" />
+//             </Backdrop>
+//         )
+//     }
+//     return (
+//     <>
+//             <MuiThemeProvider theme={theme}>
+//                 <HeaderContainer />
+//                 <TodolistContainer/>
+//             </MuiThemeProvider>
+//     </>
+//   );
+// }
+
+
+const App = React.memo(({initializeApp, initialized}) => {
     let styles = useStyles();
     useEffect(() => {
         initializeApp();
@@ -39,14 +63,19 @@ function App({initializeApp, initialized}) {
         )
     }
     return (
-    <>
+        <>
             <MuiThemeProvider theme={theme}>
                 <HeaderContainer />
                 <TodolistContainer/>
             </MuiThemeProvider>
-    </>
-  );
-}
+        </>
+    )
+});
+
+
+
+
+
 
 const mapStateToProps = (state) => {
     return {

@@ -23,7 +23,7 @@ export const authAPI = {
         return instance.post(`https://todolistwebapplication.azurewebsites.net/auth/login`, { email, password });
     },
     register(email, password, passwordConfirm) {
-        return instance.post(`https://todolistwebapplication.net/auth/register`, { email, password, passwordConfirm } );
+        return instance.post(`https://todolistwebapplication.azurewebsites.net/auth/register`, { email, password, passwordConfirm } );
     }
 }
 

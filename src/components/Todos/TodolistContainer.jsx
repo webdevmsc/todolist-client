@@ -1,6 +1,6 @@
 import Todolist from "./Todolist";
 import {connect} from "react-redux";
-import {addTodo, deleteTodo, editTodo, getTodos, toggleDone, toggleDoneCheckBox} from "../../redux/todo-reducer";
+import {addTodo, deleteTodo, editTodo, getTodos, toggleDone} from "../../redux/todo-reducer";
 import React from 'react';
 import {Backdrop, CircularProgress} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -35,4 +35,4 @@ let mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getTodos, toggleDone, deleteTodo, addTodo, editTodo, toggleDoneCheckBox })(TodolistContainer);
+export default connect(mapStateToProps, { getTodos, toggleDone, deleteTodo, addTodo, editTodo })(TodolistContainer);

@@ -16,9 +16,9 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import Chip from '@material-ui/core/Chip';
-import {toggleDoneCheckBox} from "../../redux/todo-reducer";
 import EditTodo from "./EditTodo";
 import AddNewTodo from "./AddTodo";
+import {toggleDoneCheckBox} from "../../redux/todo-reducer";
 
 //styles
 const useStyles = makeStyles(theme => ({
@@ -150,16 +150,8 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth, isL
         deleteTodo(todoId);
     };
     const handleToggleDone = (todoId) => () => {
-        setLoading(true);
         toggleDone(todoId);
-        setLoading(false);
     }
-    const handleCheckboxClick = (todoId) => () => {
-        toggleDoneCheckBox(todoId);
-    };
-
-    //setLoading
-    let [loading, setLoading] = useState(false);
 
     //pagination
     const [page, setPage] = useState(0);
@@ -207,11 +199,11 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth, isL
                                 {todos.map(x =>
                                     <ListItem className={x.status ? classes.doneNote : classes.note } key={x.id} onClick={handleToggleDone(x.id)} >
                                         <ListItemIcon>
-                                            <Checkbox checked={x.status == true} onClick={handleCheckboxClick(x.id)}/>
+                                            <Checkbox checked={x.status == true}/>
                                         </ListItemIcon>
                                         <div className={classes.listItem}>
                                             <ListItemText className={classes.listItemText} primary={x.title} secondary={x.content}/>
-                                            { x.tags && x.tags.map(x => x && <Chip key={x.id} variant={"outlined"} className={classes.chip} label={x}/>) }
+                                            { x.tags && x.tags.map(x => x && <Chip key={x} variant={"outlined"} className={classes.chip} label={x}/>) }
                                         </div>
                                         <div className={classes.dates}>
                                             <Chip variant={"outlined"} key={Date.parse(x.added)} className={classes.date} label={new Date(Date.parse(x.added)).toLocaleString()}/>

@@ -68,7 +68,9 @@ export const getTodos = () => async (dispatch) => {
 }
 
 export const toggleDone = (todoId) => async (dispatch) => {
+    dispatch(setLoading(true));
     let response = await todoAPI.toggleDone(todoId);
+    dispatch(setLoading(false));
     if (response.data.status === 0) {
         dispatch(setToggleDone(todoId, response.data.data));
     }

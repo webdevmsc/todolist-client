@@ -31,10 +31,13 @@ const useStyles = makeStyles(theme => ({
 const todoValidationSchema = yup.object({
     title: yup
         .string(`Enter tasks' title`)
+        .min(3, 'At least 3 characters')
+        .max(30, 'Max 30 characters')
         .required('Title is required'),
     content: yup
         .string(`Enter tasks' content`)
-        .min(3, 'Description should be of minimum 3 characters length')
+        .min(3, 'At least 3 characters')
+        .max(50, 'Max 50 characters')
         .required('Task description is required')
 })
 //element

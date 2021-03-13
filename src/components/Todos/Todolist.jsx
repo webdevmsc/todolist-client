@@ -150,11 +150,16 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth, isL
         deleteTodo(todoId);
     };
     const handleToggleDone = (todoId) => () => {
+        setLoading(true);
         toggleDone(todoId);
+        setLoading(false);
     }
     const handleCheckboxClick = (todoId) => () => {
         toggleDoneCheckBox(todoId);
     };
+
+    //setLoading
+    let [loading, setLoading] = useState(false);
 
     //pagination
     const [page, setPage] = useState(0);
@@ -216,7 +221,8 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth, isL
                                             <EditTodo editingTodo={x} editTodo={editTodo}/>
                                             <DeleteIcon className={classes.secondaryIcon} onClick={handleDelete(x.id)}/>
                                         </ListItemSecondaryAction>
-                                    </ListItem>)}
+                                    </ListItem>
+                                )}
                             </List>
                     }
                     <div className={classes.addTodo} >

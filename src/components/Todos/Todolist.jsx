@@ -173,9 +173,13 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth, isL
         )
     }
 
+    let sliced;
     if (todos && rowsPerPage > 0) {
-        todos = todos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+        sliced = todos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    } else {
+        sliced = todos;
     }
+
 
     return (
         <>
@@ -189,14 +193,14 @@ const Todolist = ({todos, toggleDone, deleteTodo, addTodo, editTodo, isAuth, isL
                         </div>
                     </div>
                     {
-                            todos.length === 0
+                            sliced.length === 0
                             ?
                             <div className={classes.message}>
                                 <Typography variant={'inherit'}>Your todolist is empty. Please add some tasks</Typography>
                             </div>
                             :
                             <List className={classes.todos}>
-                                {todos.map(x =>
+                                {sliced.map(x =>
                                     <ListItem className={x.status ? classes.doneNote : classes.note } key={x.id} onClick={handleToggleDone(x.id)} >
                                         <ListItemIcon>
                                             <Checkbox checked={x.status == true}/>
